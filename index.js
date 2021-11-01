@@ -10,6 +10,16 @@ client.on('message', (msg) => {
   if (msg.content === "ping") {
     msg.reply("pong");
   }
+  else if (msg.content === "dimka") {
+      msg.reply("is God")
+  }
+  else if (msg.content === "bizya") {
+    msg.reply("MMO")
+    }
+    else if (msg.content === "danila") {
+        msg.reply("tanki")
+    }
 })
+
 
 client.login(process.env.TOKEN)
