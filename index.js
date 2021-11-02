@@ -1,7 +1,11 @@
 require('dotenv').config({path: '.env'})
 const { Client, Intents} = require("discord.js");
 const axios = require('axios');
+const {execute, skip, stop} = require('./yt-actions');
 const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES] });
+
+const PREFIX = process.env.PREFIX;
+const queue = new Map();
 
 const options = {
   method: 'GET',
@@ -23,26 +27,38 @@ client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}!`)
 })
 
-client.on('message', async (msg) => {
+client.on('interactionCreate', async (interection) => {
+  if(!interection.isCommand()) return;
+  
+  const serverQueue = queue.get(interection.guildId)
 
-  switch(msg.content) {
-    case 'ping':
-      msg.reply("pong")
+  switch(interection.commandName) {
+    case `ping`:
+      interection.reply(`pong`)
       break;
-    case 'dimka':
-      msg.reply("is God")
+    case `dimka`:
+      interection.reply(`is God`)
       break;
-    case 'bizya':
-      msg.reply("MMO")
+    case `bizya`:
+      interection.reply(`MMO`)
       break;
-    case 'danila':
-      msg.reply("tanki")
+    case `danila`:
+      interection.reply(`tanki`)
       break;
-    case '!meme':
-      msg.channel.send('Here is your Meme!')
+    case `${PREFIX}meme`:
+      interection.channel.send('Here is your Meme!')
       const img = await getMeme()
-      msg.channel.send(img)
+      interection.channel.send(img)
       break;
+    case `${PREFIX}play`:
+      execute(message, serverQueue);
+      break;
+    case `${PREFIX}skip`:
+      skip(message, serverQueue);
+    case `${PREFIX}stop`:
+      stop(message, serverQueue);
+    default: 
+      interection.channel.send('You need to enter a valid command!')
   }
 
 })
