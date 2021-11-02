@@ -5,7 +5,6 @@ const {execute, skip, stop} = require('./yt-actions');
 const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES] });
 
 const PREFIX = process.env.PREFIX;
-const queue = new Map();
 
 const options = {
   method: 'GET',

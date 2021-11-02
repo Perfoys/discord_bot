@@ -1,5 +1,7 @@
 const ytdl = require('ytdl-core');
 
+const queue = new Map();
+
 exports.execute = async (message, serverQueue) => {
     const args = message.content.split(' ');
     const voiceChannel = message.member.voice.channel;
