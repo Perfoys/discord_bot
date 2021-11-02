@@ -1,8 +1,6 @@
 const ytdl = require('ytdl-core');
 
-const queue = new Map();
-
-exports.execute = async (message, serverQueue) => {
+exports.execute = async (message, serverQueue, queue) => {
     const args = message.content.split(' ');
     const voiceChannel = message.member.voice.channel;
     console.log(args)
@@ -41,7 +39,7 @@ exports.execute = async (message, serverQueue) => {
         try {
             let connection = await voiceChannel.join();
             queueContruct.connection = connection;
-            play(message.guild, queueContruct.songs[0]);
+            play(message.guild, queueContruct.songs[0], queue);
         } catch (error) {
             console.log(error);
             queue.delete(message.guild.id);
@@ -54,7 +52,7 @@ exports.execute = async (message, serverQueue) => {
     }
 }
 
-const play = (guild, song) => {
+const play = (guild, song, queue) => {
     const serverQueue = queue.get(guild.id);
     if (!song) {
         serverQueue.voiceChannel.leave();

@@ -5,6 +5,7 @@ const {execute, skip, stop} = require('./yt-actions');
 const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES] });
 
 const PREFIX = process.env.PREFIX;
+const queue = new Map();
 
 const options = {
   method: 'GET',
@@ -52,7 +53,7 @@ client.on('messageCreate', async (message) => {
   }
 
   if (message.content.startsWith(`${PREFIX}play`)) {
-    execute(message, serverQueue);
+    execute(message, serverQueue, queue);
     return;
   } else if (message.content.startsWith(`${PREFIX}skip`)) {
     skip(message, serverQueue);
