@@ -3,7 +3,7 @@ const ytdl = require('ytdl-core');
 exports.execute = async (message, serverQueue, queue) => {
     const args = message.content.split(' ');
     const voiceChannel = message.member.voice.channel;
-    console.log(voiceChannel)
+
     if (!voiceChannel) {
         return message.channel.send(
             `You need to be in voice channel to play music!`
@@ -37,7 +37,11 @@ exports.execute = async (message, serverQueue, queue) => {
         queueContruct.songs.push(song);
 
         try {
-            let connection = await voiceChannel.join();
+            let connection = joinVoiceChannel({
+                channelId: message.member.voice.channel,
+                guildId: message.guild.id,
+                adapterCreator: message.guild.voiceAdapterCreator
+            });;
             queueContruct.connection = connection;
             play(message.guild, queueContruct.songs[0], queue);
         } catch (error) {
