@@ -28,7 +28,7 @@ client.on('ready', () => {
 })
 
 client.on('message', async (msg) => {
-  if (message.author.bot) return;
+  if (msg.author.bot) return;
 
   const serverQueue = queue.get(msg.guildId)
 
