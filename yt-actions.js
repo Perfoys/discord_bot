@@ -1,6 +1,6 @@
 const ytdl = require('ytdl-core');
 
-const execute = async (message, serverQueue) => {
+exports.execute = async (message, serverQueue) => {
     const args = message.content.split(' ');
     const voiceChannel = message.member.voice.channel;
     const permissions = voiceChannel.permissionsFor(message.client.user);
@@ -72,7 +72,7 @@ const play = (guild, song) => {
 
 }
 
-const skip = (message, serverQueue) => {
+exports.skip = (message, serverQueue) => {
     if (!message.member.voice.channel) {
         return message.channel.send(
             `You have to be in a voice channel to stop the music!`
@@ -83,7 +83,7 @@ const skip = (message, serverQueue) => {
     serverQueue.connection.dispatcher.end()
 }
 
-const stop = (message, serverQueue) => {
+exports.stop = (message, serverQueue) => {
     if (!message.member.voice.channel) {
         return message.channel.send(
             `You have to be in a voice channel to stop the music!`
@@ -97,7 +97,3 @@ const stop = (message, serverQueue) => {
     serverQueue.connection.dispatcher.end();
 }
 
-
-module.exports = execute;
-module.exports = stop;
-module.exports = skip;
