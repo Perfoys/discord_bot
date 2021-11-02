@@ -27,40 +27,43 @@ client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}!`)
 })
 
-client.on('interactionCreate', async (interection) => {
-  if(!interection.isCommand()) return;
-  
-  const serverQueue = queue.get(interection.guildId)
+client.on('message', async (msg) => {
+  if(!msg.isCommand()) return;
 
-  switch(interection.commandName) {
+  const serverQueue = queue.get(msg.guildId)
+
+  switch(msg.content) {
     case `ping`:
-      interection.reply(`pong`)
+      msg.reply(`pong`)
       break;
     case `dimka`:
-      interection.reply(`is God`)
+      msg.reply(`is God`)
       break;
     case `bizya`:
-      interection.reply(`MMO`)
+      msg.reply(`MMO`)
       break;
     case `danila`:
-      interection.reply(`tanki`)
+      msg.reply(`tanki`)
       break;
     case `${PREFIX}meme`:
-      interection.channel.send('Here is your Meme!')
+      msg.channel.send('Here is your Meme!')
       const img = await getMeme()
-      interection.channel.send(img)
+      msg.channel.send(img)
       break;
-    case `${PREFIX}play`:
-      execute(message, serverQueue);
-      break;
-    case `${PREFIX}skip`:
-      skip(message, serverQueue);
-    case `${PREFIX}stop`:
-      stop(message, serverQueue);
-    default: 
-      interection.channel.send('You need to enter a valid command!')
   }
 
+  if (msg.content.startsWith(`${PREFIX}play`)) {
+    execute(msg, serverQueue);
+    return;
+  } else if (msg.content.startsWith(`${PREFIX}skip`)) {
+    skip(msg, serverQueue);
+    return;
+  } else if (msg.content.startsWith(`${PREFIX}stop`)) {
+    stop(msg, serverQueue);
+    return;
+  } else {
+    msg.channel.send("You need to enter a valid command!");
+  }
 })
 
 const getMeme = async () => {
