@@ -3,7 +3,7 @@ const ytdl = require('ytdl-core');
 exports.execute = async (message, serverQueue, queue) => {
     const args = message.content.split(' ');
     const voiceChannel = message.member.voice.channel;
-    console.log(args)
+    console.log(voiceChannel)
     if (!voiceChannel) {
         return message.channel.send(
             `You need to be in voice channel to play music!`
