@@ -1,6 +1,6 @@
 const ytdl = require('ytdl-core');
 
-const execute = (message, serverQueue) => {
+const execute = async (message, serverQueue) => {
     const args = message.content.split(' ');
     const voiceChannel = message.member.voice.channel;
     const permissions = voiceChannel.permissionsFor(message.client.user);
