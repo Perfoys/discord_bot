@@ -27,42 +27,42 @@ client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}!`)
 })
 
-client.on('message', async (msg) => {
-  if (msg.author.bot) return;
+client.on('messageCreate', async (message) => {
+  if (message.author.bot) return;
 
-  const serverQueue = queue.get(msg.guildId)
+  const serverQueue = queue.get(message.guildId)
 
-  switch(msg.content) {
+  switch(message.content) {
     case `ping`:
-      msg.reply(`pong`)
+      message.reply(`pong`)
       break;
     case `dimka`:
-      msg.reply(`is God`)
+      message.reply(`is God`)
       break;
     case `bizya`:
-      msg.reply(`MMO`)
+      message.reply(`MMO`)
       break;
     case `danila`:
-      msg.reply(`tanki`)
+      message.reply(`tanki`)
       break;
     case `${PREFIX}meme`:
-      msg.channel.send('Here is your Meme!')
+      message.channel.send('Here is your Meme!')
       const img = await getMeme()
-      msg.channel.send(img)
+      message.channel.send(img)
       break;
   }
 
-  if (msg.content.startsWith(`${PREFIX}play`)) {
-    execute(msg, serverQueue);
+  if (message.content.startsWith(`${PREFIX}play`)) {
+    execute(message, serverQueue);
     return;
-  } else if (msg.content.startsWith(`${PREFIX}skip`)) {
-    skip(msg, serverQueue);
+  } else if (message.content.startsWith(`${PREFIX}skip`)) {
+    skip(message, serverQueue);
     return;
-  } else if (msg.content.startsWith(`${PREFIX}stop`)) {
-    stop(msg, serverQueue);
+  } else if (message.content.startsWith(`${PREFIX}stop`)) {
+    stop(message, serverQueue);
     return;
   } else {
-    msg.channel.send("You need to enter a valid command!");
+    message.channel.send("You need to enter a valid command!");
   }
 })
 
